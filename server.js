@@ -53,7 +53,7 @@ app.post('/api/login', async (req, res) => {
        return res.status(500).json({ message: 'Sorry ,YOU ARE NOT SIGNED IN.', error });
     }
 });
-
+app.use(express.static(path.join(__dirname, 'public')));
 // Start server
 
 const PORT = process.env.PORT || 5000;
