@@ -48,9 +48,9 @@ app.post('/api/login', async (req, res) => {
         const newFaculty = new SignIn({ username, password:hashedPassword });
 
         await newFaculty.save();
-        res.status(200).json({ message:'successfully Signed In' ,signin: true });
+        return res.status(200).json({ message:'successfully Signed In' ,signin: true });
     } catch (error) {
-        res.status(500).json({ message: 'Sorry ,YOU ARE NOT SIGNED IN.', error });
+       return res.status(500).json({ message: 'Sorry ,YOU ARE NOT SIGNED IN.', error });
     }
 });
 
