@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        
+       *{
+        overflow: hidden;
+       }
+        body {
+            font-family: Arial, sans-serif;
+            margin-top: 50px;
+            background-color: rgb(180, 238, 243);
+        }
+        form {
+            display:inline-block;
+            text-align: left;
+          
+        }
+        label{
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: #2bcc30;
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin-left: 129px;
+            border-radius: 5%;
+        }
+        button:hover{
+            background-color: #07620c;
+        }
+        .container {
+            background: rgba(231, 5, 118, 0.25);
+            box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+            backdrop-filter: blur( 4px );
+            -webkit-backdrop-filter: blur( 4px );
+            border-radius: 10px;
+            
+            margin: auto;
+            width:340px;
+            
+        }
+        label,input{
+            margin-right: 300px;
+            background: transparent;
+            text-align: center;
+        }
+        .h{
+            text-align: center;
+            background-color: transparent;
+        }
+
+        input {
+            outline: none;
+            width: 70%;
+            padding: 8px;
+            border: none;
+            border-bottom: 3px solid  rgb(191, 183, 183);
+            background: none;
+            background-color: transparent;
+            
+            
+        }
+        input{
+            outline:none;
+            background: transparent;
+            border-bottom: 2px solid rgb(139, 134, 134);
+        }
+
+        #heading,form{
+            background: transparent;
+        }
+        #heading{
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            text-align: center;
+        }
+        input{
+            margin-bottom: 17px;
+        }
+        .container{
+            padding: 20px;
+        }
+        
+        p{
+            background-color: transparent;
+            margin-left: 7px;
+        }
+       
+        @media (min-width: 555px) {
+           
+            .container {
+                width:640px;
+            }
+               
+        }
+    </style>
+
+</head>
+<body>
+<div class="container">
+    
+    <h1 id="heading">Sign Up</h1>
+   
+    <div class="h">
+    <form id="loginForm">
+        <label for="username">Username:</label><br>
+        <input type="text" id="username" name="username" required><br>
+        <label for="password">Password:</label><br>
+        <input type="password" id="password" name="password" required><br>
+        <button type="submit">Submit</button>
+       
+        
+      
+        <p id="result" style="text-align:center;"></p>
+    </form>
+    </div>
+    <p>⚠️ Enter a Unique Username</p>
+    <p>⚠️ First letter of username must be capitalized</p>
+    <p>⚠️ Create a Strong Password</p>
+    <p>⚠️ Verify Your Details</p>
+   
+</div>
+
+
+<script>
+    document.getElementById('loginForm').addEventListener('submit', async (event) => {
+        event.preventDefault();
+    
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+        const resultElement=document.getElementById('result');
+        const startsWithCapital = /^[A-Z]/.test(username);
+        if(startsWithCapital){
+            resultElement.style.display = "none";
+            try {
+                const response = await fetch('http://localhost:5000/api/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ username, password }),
+                });
+        
+                const result = await response.json();
+    
+                alert(result.message);
+                document.getElementById('username').value = "";
+                document.getElementById('password').value = "";
+                if(result.signin){
+                    window.location.href="ind.html";
+                }
+                    
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Failed to save user data.');
+            }
+        }else{
+            resultElement.innerHTML = "Invalid: Username must <br> start with a capital letter.";
+            resultElement.style.color = "red";
+        }
+        
+    });
+</script>
+</body>
+</html>
